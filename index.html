@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colégio Vivo - Página do Grupo Escolar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Colégio Vivo - Página do Grupo Escolar</h1>
+    </header>
+
+    <nav>
+        <a href="#futebol">Futebol</a>
+        <a href="#discussoes">Dúvidas e Discussões</a>
+    </nav>
+
+    <div class="content" id="futebol">
+        <h2 class="section-title">Futebol</h2>
+        <h3>Times e Jogadores</h3>
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>Jogador</th>
+                <th>Gols</th>
+                <th>Assistências</th>
+                <th>Prêmios</th>
+            </tr>
+            <tr>
+                <td>Mangas F.C.</td>
+                <td>Jogador 1</td>
+                <td>5</td>
+                <td>3</td>
+                <td>Melhor Jogador</td>
+            </tr>
+            <tr>
+                <td>Fênix FC</td>
+                <td>Jogador 2</td>
+                <td>4</td>
+                <td>2</td>
+                <td>Artilheiro</td>
+            </tr>
+        </table>
+
+        <div class="image-placeholder">
+            <p>Espaço para Imagem do Jogo ou Time</p>
+        </div>
+        <div class="image-placeholder">
+            <p>Espaço para Imagem do Time Mangas F.C.</p>
+        </div>
+        <div class="image-placeholder">
+            <p>Espaço para Imagem do Time Fênix FC</p>
+        </div>
+        <div class="image-placeholder">
+            <p>Espaço para Imagem da Seleção</p>
+        </div>
+    </div>
+
+    <div class="content" id="discussoes">
+        <h2 class="section-title">Dúvidas, Discussões e Eventos</h2>
+        <p>Use esta seção para postar dúvidas, discutir tópicos importantes e ficar por dentro dos próximos eventos do grupo.</p>
+
+        <h3>Eventos</h3>
+        <ul>
+            <li>Reunião do grupo: 20 de outubro, às 14h</li>
+            <li>Torneio de Futebol: 25 de outubro, às 10h</li>
+        </ul>
+
+        <h3>Discussões em andamento</h3>
+        <ul>
+            <li>Próximos projetos para o grupo</li>
+            <li>Sugestões para melhorias nas atividades</li>
+        </ul>
+
+        <h3>Chat</h3>
+        <div id="chat">
+            <ul id="messages"></ul>
+            <input id="message" autocomplete="off" /><button id="send">Enviar</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const form = document.getElementById('chat');
+        const input = document.getElementById('message');
+        const messages = document.getElementById('messages');
+
+        document.getElementById('send').onclick = function() {
+            const msg = input.value;
+            socket.emit('chat message', msg);
+            input.value = '';
+            return false;
+        };
+
+        socket.on('chat message', function(msg) {
+            const item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
+
+</body>
+</html>
